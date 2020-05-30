@@ -3,14 +3,16 @@ var mongoose = require('mongoose');
 var credenciales = require('../../esquemas/credenciales');
 var bcrypt=require('bcrypt');
 var cliente = require('../../esquemas/cliente');
+var Producto = require('../../esquemas/producto');
 var express= require('express');
 var clienteMaiGun = require('../../esquemas/envioMail')
 var router=express.Router();// <--- objeto de enrutado q voy a exportar al modulo de lapipe line
 //configuramos las diferentes rutas q va a escuchar el objeto de configuracion de enrutamoento
 //q va a manejar el modulo de lo pipeline de EXPRESS
-//var codToken = require('../../servicioToken'); //<--funcion decodif de token 
-//const auth = require('../middleware/auth');
+var codToken = require('../../servicioToken'); //<--funcion decodif de token 
+const auth = require('../middleware/auth');
 
+//------------------------------------------------------------------------------------------------------
 router.post('/registroCliente', (req,res,next)=>{
 
     console.log('datos enviados por el cliente angular en el registro', req.body);
@@ -75,8 +77,8 @@ router.post('/registroCliente', (req,res,next)=>{
                                                                                     _htmlPart ); //<--- parte html con mensaje 
              //----------------------------> Respuesta  al frontend                               
              //----------------------------> genero un token en la respuesta llamando a la funcion servicioToken
-                                      //    res.status(200).send({Token: codToken.createToken(_clienteAinsertar)});              
-                                                    res.status(200).redirect('http://localhost:4200/Cliente/login');
+                                            res.status(200).send({Token: codToken.createToken(_clienteAinsertar)});              
+                                                   // res.status(200);
                                                    
                                                     
                                                     }else{
@@ -188,28 +190,70 @@ router.post('/login', (req, res, next)=>{
     
     //aqui deberia comrpobar el estado de la cuenta activa=true or false
     //y si la cuenta esta activa dejarle logarse
-    //como busco en monggose credenciales
-    
+    //como busco en monggose credenciales    
     cliente.find({ _email: req.body.credenciales.mail}, (err, _cliente)=>{
         if (err) {
             console.log('Ha ocurrido un error', err);
         }else if (!_cliente) {
             console.log('no se ha encontrado el cliente', _cliente);
         } else {
-            console.log('cleinte encontrado: ', _cliente[0]); //<---aqui devuelve un array de jsdon
-            req._cliente=_cliente; //<--este obj sjon debe ser {}
-            res.status(201).redirect('http://localhost:4200/Cliente/tienda')
-                          /*  .send({ 
-                                    message: 'Te has logado correctaemnte'
-                                    token: codToken.createToken(_cliente[0]) //<----
-                                });*/
+                console.log('cliente encontrado: ', _cliente[0]); //<---aqui devuelve un array de jsdon
+               cliente = _cliente[0];
+             //  console.log(".....>",cliente);
+               //<--este obj sjon debe ser {}
+                res.status(200)
+                              .send({  
+                                        token: codToken.createToken(_cliente[0]),
+                                        cliente:  _cliente[0] //<----
+                                    });
         }
-
+        next();
     });
 });
 
 
 
+//muestra los productos de la BD en la vista tienda
+router.get('/productos', (req, res, next)=>{
+    
+    var listaProductos={};
+    Producto.find((err, resultado)=>{
+        if (err) {
+            console.log("fallo con mongo");
+        }
+        else{
+           // console.log("ok la extraccion",resultado);
+                     
+            res.status(200).send(resultado);;
+            
+        }
+    })
+
+
+});
+
+
+//muestra el detalle producto
+router.get('/unProducto',(req, res, next)=>{
+
+    console.log("servidor-req-->", req.query.variableX); //<--es null siempre
+    var product = req.query.unProducto;
+    //como consigo el id del prodcuto del storage? 
+
+    Producto.findOne({_id: req.query.unProducto},(err, elProducto)=>{
+        if (err) {
+            console.log("fallo con mongo");
+        }
+        else{
+         //  console.log("ok la extraccion",elProducto);
+                     
+            res.status(200).send(elProducto);
+            
+        }
+    })
+
+
+});
 
  
 //--------------lo exporto----------
