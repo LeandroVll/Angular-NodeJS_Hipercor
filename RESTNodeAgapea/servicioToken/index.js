@@ -3,13 +3,13 @@ const jwt = require('jwt-simple');
 const moment = require('moment');
 const _aclaveTokens =  process.env.SECRET_TOKEN;
 
-//-----Esta funcione crea un token que durea 1 dias cuando un usuario se registra 
+//-----Esta funcione crea un token que dura 1 hora cuando un usuario se registra 
 function createToken(_cleinte) { 
 
     const payload={
         sub: _cleinte.credenciales.email,
         iat: moment.unix() ,
-        exp: moment().add(1, 'days').unix()
+        exp: moment().add(1, 'hour').unix()
     }
 
   return  jwt.encode(payload, _aclaveTokens)
@@ -28,7 +28,7 @@ function createToken(_cleinte) {
                        message: 'El token ha expirado'
                    })
                 }else{
-                    resolve(payload.sub)
+                    resolve(payload.sub) //<---el cliente
                 }
 
         } catch (error) {
