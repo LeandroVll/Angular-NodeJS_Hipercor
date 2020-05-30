@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { cliente } from '../modelos/cliente';
 import { Observable } from 'rxjs';
+import { Producto } from '../modelos/producto';
+import { Pedido } from '../modelos/pedido';
 //import { promise } from 'protractor';
+/***
+ * 
+ * Para usar la funcion AUTH de mi servicio middleware de Nodejs tengo q implementar aqui el tipo de dabecera
+ * q este va a recibir
+ * 
+ */
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +62,50 @@ public logarCLiente(newCliete : cliente): Observable<cliente> {//<<--credenciles
 
   return this._http.post<cliente>(  'http://localhost:3000/api/login',
                                     newCliete,
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+/**
+ * recuperar productos 
+ de mongo*/
+public RecuperarProductos(): Observable<Producto[]> {//<<--arr de productos
+
+
+  return this._http.get<Producto[]>(  'http://localhost:3000/api/productos',
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+/**
+ * recuperar productos 
+ de mongo*/
+ public RecuperarUnProducto(unProducto: Producto): Observable<Producto> {//<<--paso el producto del storage
+  let params= new HttpParams();
+  params= params.append('variableX', unProducto.idproducto);
+  console.log(params,"<---servicio");
+  return this._http.get<Producto>(  'http://localhost:3000/api/unProducto',
+                                                    {
+                                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                                    }
+  );
+  
+}
+
+
+/**
+ * recuperar productos 
+ de mongo*/
+ public InsertarPedido(newPedido: Pedido): Observable<Pedido> {//<<-
+
+
+  return this._http.get<Pedido>(  'http://localhost:3000/api/insertPedido',
                                     {
                                       headers : new HttpHeaders({ 'Content-Type': 'application/json' })
                                     }
