@@ -10,7 +10,6 @@ var mongoose = require('mongoose');   //<---- Acceso a datos contra MongoDB
 //------------------------SERVIDOR WEB EXPRESS----------------------
 var servidor = express(); // creaos un servidor web usando express
 var bcrypt=require("bcrypt");
-
 configurador(servidor); //<---- para hacer mas comoda la confguracion del servidor creo su conf en un modulo aparte 
 
 
