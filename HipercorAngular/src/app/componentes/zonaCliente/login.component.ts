@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { RestfullnodejsService } from "../../servicios/restfullnodejs.service";
 import { cliente } from 'src/app/modelos/cliente';
 import { Credenciales } from 'src/app/modelos/credenciales';
+import { Router } from "@angular/router";
+import { LocalstorageService } from 'src/app/servicios/LocalstorageService';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +16,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   //
   public formLogin : FormGroup; //<--- propiedad de login.component.html 
 
-  constructor(private _peticionesRest : RestfullnodejsService ) { 
+  constructor(private _peticionesRest : RestfullnodejsService, private _router:Router,
+              private _storage:LocalstorageService ) { 
 
       //creo un objeto json con validaciones  
       this.formLogin = new FormGroup({
         email: new FormControl("",[Validators.required,Validators.pattern("^.*@.*"),Validators.maxLength(50)]),
         password: new FormControl("",[Validators.required,Validators.minLength(6), Validators.maxLength(25)])
       });
+
   }
 
   logarCliente(){
@@ -30,8 +34,19 @@ export class LoginComponent implements OnInit, OnDestroy {
      _clienteNew.credenciales.password= this.formLogin.controls['password'].value;
 
     //le paso el obj cliente.credenciales al servicio
-     this._peticionesRest.logarCLiente(_clienteNew).subscribe((cleinteRespuesta: cliente)=>{
-      console.log(`Esta es la respeusta del servidor al registro: `, cleinteRespuesta);
+     this._peticionesRest.logarCLiente(_clienteNew).subscribe((result: cliente)=>{
+      //console.log(`Esta es la respeusta del servidor al registro: `, result);
+
+        //redirije a la vista 
+        if(result!=null)
+        {
+            this._storage.AlmacenarStorage("token", result );
+            this._router.navigate(["/Cliente/PanelUsuario"]);
+        }
+        else{
+          console.log("Fallo subcripcion en el compoent login");
+        }
+
      })
 
   }
