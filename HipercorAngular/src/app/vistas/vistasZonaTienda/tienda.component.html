@@ -1,1 +1,46 @@
-<p>tienda works!</p>
+<div class="container">
+    <h2>Productos</h2>
+
+    <div class="row" 
+            *ngFor="let unProducto of listaProductos">
+            <div class="row" 
+            *ngFor="let nomProducto of unProducto">
+                <div class="col">
+                    <div class="card" style="width: 18rem;">                          
+                        <span id="idvalor" hidden>{{nomProducto.idproducto}}</span>
+                        <img [src]="nomProducto.imagen" class="card-img-top" alt="laimagen" width="300" height="300">
+                        <div class="card-body">
+                        </div>
+                        <ul class="list-group list-group-flush">
+                        <li id="nom" class="list-group-item">Nombre Prodcuto: {{nomProducto.nombreProducto}} </li>
+                        <li class="list-group-item">Categoria: {{nomProducto.categoriaProducto}} </li>
+                        <li class="list-group-item">Precio: {{nomProducto.precio}}</li>
+                        </ul>
+                        <div class="card-body">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button class="btn btn-primary btn-sm" (click)="recivir(nomProducto)">AGREGRAR A CARRITO</button>
+                            <button type="button" class="btn btn-primary btn-sm">QUITAR DE CARRITO</button>  
+                        </div>
+                    
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+<a [routerLink]="['../../Tienda/productos']">PANEL DE USUARIO</a>        
+    
+</div>
+<script>
+    //fucncion q recoja valor id
+    $(document).ready(function() {
+
+        function gt(){
+       [infoProducto]= document.getElementById("nom");
+    }
+
+    });
+   
+</script>

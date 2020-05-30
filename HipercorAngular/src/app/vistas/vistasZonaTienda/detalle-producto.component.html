@@ -1,0 +1,12 @@
+<div class="container">
+    <h2>Productos</h2>
+
+    <div class="row" 
+            *ngFor="let unProducto of elProducto">
+
+                
+            <app-detalle-producto-hijo [elProducto]=unProducto></app-detalle-producto-hijo>
+
+        </div>
+
+<a [routerLink]="['../../Cliente/login']" class="card-link">PANEL DE USUARIO</a>        

@@ -1,0 +1,20 @@
+<div class="col">
+    <div class="card" style="width: 18rem;">                          
+        <span id="idvalor" hidden>{{unProducto.idproducto}}</span>
+        <img [src]="unProducto.imagen" class="card-img-top" alt="laimagen" width="300" height="300">
+        <div class="card-body">
+        </div>
+        <ul class="list-group list-group-flush">
+        <li id="nom" class="list-group-item">Nombre Prodcuto: {{unProducto.nombreProducto}} </li>
+        <li class="list-group-item">Categoria: {{unProducto.categoriaProducto}} </li>
+        <li class="list-group-item">Precio: {{unProducto.precio}}</li>
+        </ul>
+        <div class="card-body">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-primary btn-sm" (click)="recivir(unProducto)">AGREGRAR A CARRITO</button>
+            <button type="button" class="btn btn-primary btn-sm">QUITAR DE CARRITO</button>  
+        </div>
+    
+        </div>
+    </div>
+</div>
