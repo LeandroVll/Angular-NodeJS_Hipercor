@@ -1,7 +1,8 @@
+  
 var mongoose=require("mongoose");
 var Schema = mongoose.Schema;
 
-var esquemaProducto= new mongoose.Schema({
+var esquemaProducto= new Schema({
 
     idproducto: { type: String },
     categoriaProducto: { type: String },
