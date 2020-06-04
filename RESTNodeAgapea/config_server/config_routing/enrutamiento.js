@@ -1,9 +1,14 @@
 
 var mongoose = require('mongoose');
 var credenciales = require('../../esquemas/credenciales');
+var Producto = require('../../esquemas/producto');
+var ListaProductos=require('../../esquemas/listaProductos'); //<---TIENE Q CARGARSE DESPUES DE LOS SCHEMA DE DENTRO
+var Direccion=require('../../esquemas/localidad');
+var Direccion=require('../../esquemas/provincia');
+var Direccion=require('../../esquemas/direccion');
 var bcrypt=require('bcrypt');
 var cliente = require('../../esquemas/cliente');
-var Producto = require('../../esquemas/producto');
+var Pedido = require('../../esquemas/pedido');
 var express= require('express');
 var clienteMaiGun = require('../../esquemas/envioMail')
 var router=express.Router();// <--- objeto de enrutado q voy a exportar al modulo de lapipe line
@@ -222,10 +227,10 @@ router.get('/productos', (req, res, next)=>{
             console.log("fallo con mongo");
         }
         else{
-           // console.log("ok la extraccion",resultado);
+            console.log("ok la extraccion",resultado);
                      
             res.status(200).send(resultado);;
-            
+            next();
         }
     })
 
@@ -233,25 +238,99 @@ router.get('/productos', (req, res, next)=>{
 });
 
 
-//muestra el detalle producto
-router.get('/unProducto',(req, res, next)=>{
 
-    console.log("servidor-req-->", req.query.variableX); //<--es null siempre
-    var product = req.query.unProducto;
-    //como consigo el id del prodcuto del storage? 
+//------
+router.post('/insertPedido', (req,res, next)=>{
+    
+    var datos={}
+    var _listaProductos=datos.listaElementosPedido;
+    datos = req.body;
+    //console.log("PEDIDO-->",datos.listaElementosPedido);
+    datos.listaElementosPedido.forEach(element => {
+        
+       // _listaProductos.push(element)
 
-    Producto.findOne({_id: req.query.unProducto},(err, elProducto)=>{
+    });
+    console.log("datos==>",datos.listaElementosPedido);
+    //---creo un obj Pedido para insertar en mongo
+    const _Pedido = new Pedido({
+        _id: new mongoose.Types.ObjectId(),
+        nifcliente: req.body.nifcliente,
+        fechaPedido: req.body.fechaPedido,
+        estadoPedido: "en ruta",
+        tipoGastosEnvio: req.body.tipoGastosEnvio,
+        gastosEnvio: req.body.gastosEnvio,
+        subtotal: req.body.subtotal,
+        total: req.body.total,
+        listaProductos: datos.listaElementosPedido
+    });
+
+    _Pedido.listaProductos=_listaProductos;
+   // console.log("<<<<>>>", _Pedido.listaElementosPedido[1]);
+
+    _Pedido.save((err,resultado)=>{
+        if (!err) {
+            console.log("insercion pedido ok--->",resultado)
+        } else {
+            console.log("insercion pedido error--->",err)
+        }
+    })
+
+
+    res.status(200).send({message: "funciona"})
+});
+
+
+//------
+router.post('/insertDireccion', (req,res, next)=>{
+    
+    var _vdireccion={}
+    _vdireccion = req.body;
+   // console.log("direccion-->",_direccion);
+    const _direccion = new Direccion({
+        _id: new mongoose.Types.ObjectId(),
+        tipovia: req.body.tipovia,
+        nombrevia: req.body.nombrevia,
+        edificio: req.body.edificio,
+        piso: req.body.piso,
+        escalera: req.body.escalera,
+        puerta: req.body.puerta,
+        cp: req.body.cp,
+        nombreMun: req.body.localidad.nombreMun,
+        codmun: req.body.localidad.codmun,
+        nombreProv: req.body.provincia.nombreProv,
+        codpro: req.body.provincia.codpro
+
+    });
+    
+    _direccion.save((err, resultado)=>{
+        if (!err) {
+            console.log("se inserto correctamente la direccion-->", resultado);
+        } else {
+            console.log("fallo la insercion -->", err);
+        }
+    })
+
+    
+    res.status(200).send({message: "se agrego una direccion"})
+    next();
+});
+
+
+router.get('/pedidosHechos',(req, res, next)=>{
+
+    
+    Pedido.find((err, resultado)=>{
         if (err) {
             console.log("fallo con mongo");
         }
         else{
-         //  console.log("ok la extraccion",elProducto);
+            console.log("ok la extraccion",resultado);
                      
-            res.status(200).send(elProducto);
-            
+            res.status(200).send(resultado);;
+            next();
         }
     })
-
 
 });
 
