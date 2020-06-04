@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { cliente } from 'src/app/modelos/cliente';
 import { Pedido } from 'src/app/modelos/pedido';
-import { Router,ActivatedRoute } from "@angular/router";
+import { Router,ActivatedRoute,ParamMap } from "@angular/router";
 import { RestfullnodejsService } from 'src/app/servicios/restfullnodejs.service';
 import { LocalstorageService } from 'src/app/servicios/LocalstorageService';
 import { Producto } from 'src/app/modelos/producto';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-detalle-producto-hijo',
   templateUrl: '../../vistas/vistasZonaTienda/detalle-producto-hijo.component.html',
@@ -12,24 +13,24 @@ import { Producto } from 'src/app/modelos/producto';
 })
 export class DetalleProductoHijoComponent implements OnInit {
 
-  constructor(private _peticionesRest : RestfullnodejsService, private _router:Router, 
-    private _rutaActiva: ActivatedRoute,
-    private _storage:LocalstorageService) 
+  
+  
+
+  constructor(private _peticionesRest : RestfullnodejsService, private _router:Router) 
     {
 
 
     }
 
 
-  @Input()elProducto:Producto[]; //<---
-  public id:string='';
-  public pedido:Pedido=new Pedido();
-  public _producto:Producto=new Producto();
-  public _cliente:cliente=new cliente();
+  @Input()detalleProducto:Producto; //<---
+
 
   ngOnInit() {
 
-     
+
+
+     /*
        // console.log("----> UN producto", this._producto);
        var cantidad=1; //<---por defecto se gurada 1 luego se modifica
        let pedido:Pedido=new Pedido();
@@ -48,7 +49,7 @@ export class DetalleProductoHijoComponent implements OnInit {
         this._peticionesRest.RecuperarUnProducto(this._producto).subscribe((result: Producto)=>{
    
           console.log("hijo-->",result);
-       });
+       });*/
   }
 
 }
