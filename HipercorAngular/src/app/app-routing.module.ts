@@ -7,6 +7,9 @@ import { PanelUsuarioComponent } from "./componentes/zonaCliente/panel-usuario.c
 import { TiendaComponent } from "./componentes/zonaTienda/tienda.component";
 import { PedidoComponent } from './componentes/zonaTienda/pedido.component';
 import { DetalleProductoComponent } from './componentes/zonaTienda/detalle-producto.component';
+import { GestionPedidoComponent } from './componentes/zonaCliente/gestion-pedido.component';
+import { DireccionComponent } from './componentes/zonaCliente/direccion.component';
+import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosechos.component';
 
 const routes: Routes = [
 
@@ -19,10 +22,16 @@ const routes: Routes = [
                                 },
                                 {
                                   path: "PanelUsuario", component: PanelUsuarioComponent //<--Ruta de acceso http://localhost:4200/cliente/loginComponent
-                                }/*,
+                                },
                                 {
-                                  path: "tienda", component: TiendaComponent //<--Ruta de acceso http://localhost:4200/cliente/loginComponent
-                                }*/
+                                  path: "GestionPedido", component: GestionPedidoComponent //
+                                },
+                                {
+                                  path: "Direccion", component: DireccionComponent //
+                                },
+                                {
+                                  path: "PedidosHechos", component: LospedidosechosComponent //
+                                }
                             ],
                             
 
