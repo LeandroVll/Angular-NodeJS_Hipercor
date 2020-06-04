@@ -4,6 +4,7 @@ import { cliente } from '../modelos/cliente';
 import { Observable } from 'rxjs';
 import { Producto } from '../modelos/producto';
 import { Pedido } from '../modelos/pedido';
+import { Direccion } from '../modelos/direccion';
 //import { promise } from 'protractor';
 /***
  * 
@@ -84,28 +85,12 @@ public RecuperarProductos(): Observable<Producto[]> {//<<--arr de productos
 }
 
 /**
- * recuperar productos 
+ * insertar pedidos 
  de mongo*/
- public RecuperarUnProducto(unProducto: Producto): Observable<Producto> {//<<--paso el producto del storage
-  let params= new HttpParams();
-  params= params.append('variableX', unProducto.idproducto);
-  console.log(params,"<---servicio");
-  return this._http.get<Producto>(  'http://localhost:3000/api/unProducto',
-                                                    {
-                                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
-                                                    }
-  );
-  
-}
+ public InseratarDireccion(newDireccion: Direccion): Observable<Direccion> {//<<-
 
 
-/**
- * recuperar productos 
- de mongo*/
- public InsertarPedido(newPedido: Pedido): Observable<Pedido> {//<<-
-
-
-  return this._http.get<Pedido>(  'http://localhost:3000/api/insertPedido',
+  return this._http.post<Direccion>(  'http://localhost:3000/api/insertDireccion',newDireccion,
                                     {
                                       headers : new HttpHeaders({ 'Content-Type': 'application/json' })
                                     }
@@ -113,5 +98,48 @@ public RecuperarProductos(): Observable<Producto[]> {//<<--arr de productos
   
 }
 
+
+
+/**
+ * insertar pedidos 
+ de mongo*/
+ public InsertarPedido(newPedido: Pedido): Observable<Pedido> {//<<-
+
+
+  return this._http.post<Pedido>(  'http://localhost:3000/api/insertPedido',newPedido,
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+/**
+ * recuperar productos 
+ de mongo*/
+ public RecuperarPedidosHechos(): Observable<Pedido[]> {//<<--arr de productos
+
+
+  return this._http.get<Pedido[]>(  'http://localhost:3000/api/pedidosHechos',
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+/**
+ * recuperar productos 
+ de mongo*/
+ public RecuperaDirecciones(): Observable<Direccion[]> {//<<--arr de productos
+
+
+  return this._http.get<Direccion[]>(  'http://localhost:3000/api/listaDirecciones',
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
 
 }
