@@ -23,7 +23,7 @@ export class LospedidosechosComponent implements OnInit {
       if (result!=null) {
         console.log("respuesta->", result)
         var outPutLista=[] ; 
-        outPutLista.push(result);//<---paso el result [{result},{result}] al arr de productos
+        outPutLista.push(result);
         this.listaPedidos=outPutLista;
       } else {
         console.log("error->")
