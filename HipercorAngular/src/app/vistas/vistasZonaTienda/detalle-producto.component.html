@@ -1,12 +1,35 @@
 <div class="container">
-    <h2>Productos</h2>
+    
+    <h2>Detalle Prducto</h2>
 
     <div class="row" 
-            *ngFor="let unProducto of elProducto">
-
+            *ngFor="let unProducto of losProductos">
                 
-            <app-detalle-producto-hijo [elProducto]=unProducto></app-detalle-producto-hijo>
-
+            <div class="col">
+                <div class="card" style="width: 18rem;">                          
+                    <span id="idvalor" hidden>{{unProducto.idproducto}}</span>
+                    <img [src]="unProducto.imagen" class="card-img-top" alt="laimagen" width="250" height="250">
+                    <div class="card-body">
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li id="nom" class="list-group-item">Nombre Prodcuto: {{unProducto.nombreProducto}} </li>
+                    <li class="list-group-item">Categoria: {{unProducto.categoriaProducto}} </li>
+                    <li class="list-group-item">Precio: {{unProducto.precio}}</li>
+                    <li class="list-group-item">Descripcion: {{unProducto.descripcion}}</li>
+                    </ul>
+                    <div class="card-body">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-primary btn-sm" (click)="AgregaraCarrito(unProducto)">AGREGRAR A CARRITO</button>
+                        <button class="btn btn-primary btn-sm" (click)="QuitardePedido(unProducto)">QUITAR DE CARRITO</button>
+                    </div>
+                
+                    </div>
+                </div>
+            </div> 
         </div>
+    <div class="row">    
+            <a [routerLink]="['../../Tienda/productos']" class="card-link">VOLVER A COMPRAR</a> 
+            <a [routerLink]="['../../Cliente/GestionPedido']" class="card-link">GESTIONAR PEDIDO</a> 
+    </div> 
+</div>     
 
-<a [routerLink]="['../../Cliente/login']" class="card-link">PANEL DE USUARIO</a>        
