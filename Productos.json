@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5ecf6ef88bf10c46982c9584"},"categoriaProducto":"informatica","nombreProducto":"raton","precio":"15.99","descripcion":"ES UN RATON","imagen":"\\assets\\imagenes\\raton.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ecf6f57d181fd314cd4f538"},"categoriaProducto":"insumos","nombreProducto":"arena de gato","precio":"8.99","descripcion":"ES arena para el gato","imagen":"\\assets\\imagenes\\gato.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ecf6f9fdcdcb24390fe020b"},"categoriaProducto":"alimentacion","nombreProducto":"lata","precio":"3.00","descripcion":"Bebida energetica","imagen":"\\assets\\imagenes\\lata.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ecf6ffb5cf53d2c106e0257"},"categoriaProducto":"moda","nombreProducto":"zapatos","precio":"60.00","descripcion":"Son unos zapatos","imagen":"\\assets\\imagenes\\zapato.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ecf6fff5cf53d2c106e0258"},"categoriaProducto":"moda","nombreProducto":"zapatos","precio":"60.00","descripcion":"Son unos zapatos","imagen":"\\assets\\imagenes\\zapato2.jpg","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ecf70775cf53d2c106e0259"},"categoriaProducto":"moda","nombreProducto":"zapatos","precio":"60.00","descripcion":"Son unos zapatos","imagen":"\\assets\\imagenes\\zapato3.jpg","__v":{"$numberInt":"0"}}
