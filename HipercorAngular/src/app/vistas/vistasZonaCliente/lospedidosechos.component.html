@@ -1,0 +1,23 @@
+<div class="row" *ngFor="let unPedido of listaPedidos">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>          
+            <th scope="col">Fecha del Pedido</th>
+            <th scope="col">Estado del Pedido</th>
+            <th scope="col">total</th>
+        </tr>
+        </thead>
+        <tbody>
+            
+                <th scope="row"> </th>
+                <tr *ngFor="let elPedido of unPedido">          
+                    <td>{{elPedido.fechaPedido}}</td>
+                    <td>{{elPedido.estadoPedido}}</td>
+                    <td>{{elPedido.total}}</td>
+                    <td>{{elPedido.listaProductos}}</td>
+                </tr>
+           
+        
+        </tbody>
+    </table>   
+</div>       

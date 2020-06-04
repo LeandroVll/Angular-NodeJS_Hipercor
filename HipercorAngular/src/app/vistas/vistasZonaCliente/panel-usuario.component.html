@@ -5,9 +5,11 @@
      </div>
     <ul class="list-group list-group-flush">    
         <li class="list-group-item"><br></li>    
-    <a href="#" class="card-link"><li class="list-group-item">Gestionar Pedidos</li></a>
-    <a href="#" class="card-link"><li class="list-group-item">Mi Lista de Direcciones</li></a>
-    <a href="#" class="card-link"><li class="list-group-item">Mi Informacion Personal</li></a>
+    <a [routerLink]="['../../Cliente/GestionPedido']" class="card-link"><li class="list-group-item">Gestionar Pedido Actual</a>
+    <a [routerLink]="['../../Cliente/PedidosHechos']" class="card-link"><li class="list-group-item">Ver Pedidos</a>  
+    <a [routerLink]="['../../Cliente/Direccion']" class="card-link"><li class="list-group-item">Introducir otra direccion</a>
+    <a [routerLink]="['../../Cliente/ListaDirecciones']" class="card-link"><li class="list-group-item">Mi Lista de Direcciones</a>  
+    <a href="#" class="card-link"><li class="list-group-item">Mi Informacion Personal</a>
     </ul>
     <div class="card-body">
       <a [routerLink]="['../../Tienda/productos']"
