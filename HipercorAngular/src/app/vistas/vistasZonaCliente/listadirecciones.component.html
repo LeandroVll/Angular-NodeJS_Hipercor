@@ -1,0 +1,35 @@
+<div class="row" *ngFor="let unaDireccion of listaDirecciones">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>          
+            <th scope="col">tipovia</th>            
+            <th scope="col">nombrevia</th>
+            <th scope="col">edificio</th>
+            <th scope="col">escalera</th>
+            <th scope="col">piso</th>
+            <th scope="col">puerta</th>
+            <th scope="col">cp</th>
+        </tr>
+        </thead>
+        <tbody>
+            
+                <th scope="row"> </th>
+                <tr *ngFor="let ladireccion of unaDireccion">          
+                    <td><div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
+                        <label class="custom-control-label" for="defaultUnchecked">{{ladireccion.tipovia}}</label>
+                      </div>
+                    </td>
+                    <td>{{ladireccion.nombrevia}}</td>
+                    <td>{{ladireccion.edificio}}</td>
+                    <td>{{ladireccion.escalera}}</td>
+                    <td>{{ladireccion.piso}}</td>
+                    <td>{{ladireccion.puerta}}</td>
+                    <td>{{ladireccion.cp}}</td>
+                </tr>
+           
+        
+        </tbody>
+    </table>   
+</div>       
+
