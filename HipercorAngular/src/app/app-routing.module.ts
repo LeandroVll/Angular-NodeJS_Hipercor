@@ -10,6 +10,7 @@ import { DetalleProductoComponent } from './componentes/zonaTienda/detalle-produ
 import { GestionPedidoComponent } from './componentes/zonaCliente/gestion-pedido.component';
 import { DireccionComponent } from './componentes/zonaCliente/direccion.component';
 import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosechos.component';
+import { ListadireccionesComponent } from './componentes/zonaCliente/listadirecciones.component';
 
 const routes: Routes = [
 
@@ -31,6 +32,9 @@ const routes: Routes = [
                                 },
                                 {
                                   path: "PedidosHechos", component: LospedidosechosComponent //
+                                },
+                                {
+                                  path: "ListaDirecciones", component: ListadireccionesComponent //
                                 }
                             ],
                             

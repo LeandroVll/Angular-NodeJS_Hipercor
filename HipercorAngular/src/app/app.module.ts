@@ -17,6 +17,7 @@ import { DetalleProductoHijoComponent } from './componentes/zonaTienda/detalle-p
 import { GestionPedidoComponent } from './componentes/zonaCliente/gestion-pedido.component';
 import { DireccionComponent } from './componentes/zonaCliente/direccion.component';
 import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosechos.component';
+import { ListadireccionesComponent } from './componentes/zonaCliente/listadirecciones.component';
 // ----- Servicios va a PROVIDERS -----
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosec
     DetalleProductoHijoComponent,
     GestionPedidoComponent,
     DireccionComponent,
-    LospedidosechosComponent
+    LospedidosechosComponent,
+    ListadireccionesComponent
   ],
   imports: [
     BrowserModule,
