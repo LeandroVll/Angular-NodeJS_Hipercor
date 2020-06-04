@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var credenciales = require('../../esquemas/credenciales');
 var Producto = require('../../esquemas/producto');
 var ListaProductos=require('../../esquemas/listaProductos'); //<---TIENE Q CARGARSE DESPUES DE LOS SCHEMA DE DENTRO
-var Direccion=require('../../esquemas/localidad');
-var Direccion=require('../../esquemas/provincia');
+var Localidad=require('../../esquemas/localidad');
+var Provincia=require('../../esquemas/provincia');
 var Direccion=require('../../esquemas/direccion');
 var bcrypt=require('bcrypt');
 var cliente = require('../../esquemas/cliente');
@@ -321,6 +321,24 @@ router.get('/pedidosHechos',(req, res, next)=>{
 
     
     Pedido.find((err, resultado)=>{
+        if (err) {
+            console.log("fallo con mongo");
+        }
+        else{
+            console.log("ok la extraccion",resultado);
+                     
+            res.status(200).send(resultado);;
+            next();
+        }
+    })
+
+});
+
+
+router.get('/listaDirecciones',(req, res, next)=>{
+
+    
+    Direccion.find((err, resultado)=>{
         if (err) {
             console.log("fallo con mongo");
         }
