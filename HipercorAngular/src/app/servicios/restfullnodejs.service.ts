@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Producto } from '../modelos/producto';
 import { Pedido } from '../modelos/pedido';
 import { Direccion } from '../modelos/direccion';
+import { LocalstorageService } from './LocalstorageService';
 //import { promise } from 'protractor';
 /***
  * 
@@ -19,7 +20,7 @@ import { Direccion } from '../modelos/direccion';
 export class RestfullnodejsService {
   // Codigo para hacer llamadasa al servicio RestFull de node, para lo cual necesito
   // el modulo HttpClient de angular
-  constructor( private _http: HttpClient) { }
+  constructor( private _http: HttpClient, private _storage:LocalstorageService) { }
 
   /**
    * RegistraCliente
@@ -58,10 +59,10 @@ export class RestfullnodejsService {
 /**
  * logarCLiente
 newCliete : cliente : Observable<Boolean>*/
-public logarCLiente(newCliete : cliente): Observable<cliente> {//<<--credenciles
+public logarCLiente(newCliete : cliente): Observable<Boolean> {//<<--compueba q existe y node devuelve
+                                                              // {token: cliente, fechaexp: date}
 
-
-  return this._http.post<cliente>(  'http://localhost:3000/api/login',
+  return this._http.post<Boolean>(  'http://localhost:3000/api/login',
                                     newCliete,
                                     {
                                       headers : new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -75,10 +76,11 @@ public logarCLiente(newCliete : cliente): Observable<cliente> {//<<--credenciles
  de mongo*/
 public RecuperarProductos(): Observable<Producto[]> {//<<--arr de productos
 
-
   return this._http.get<Producto[]>(  'http://localhost:3000/api/productos',
                                     {
-                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                      headers : new HttpHeaders({ 
+                                                                  'Content-Type': 'application/json'
+                                                                })
                                     }
   );
   
