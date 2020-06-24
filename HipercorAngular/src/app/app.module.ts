@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 // -----componentes (Van a Declrations)-----
 import { AppComponent } from './app.component';
 import { RegistroComponent } from './componentes/zonaCliente/registro.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ActivarCuentaComponent } from './componentes/zonaCliente/activar-cuenta.component';
 import { LoginComponent } from './componentes/zonaCliente/login.component';
 import { PanelUsuarioComponent } from './componentes/zonaCliente/panel-usuario.component';
@@ -18,6 +18,7 @@ import { GestionPedidoComponent } from './componentes/zonaCliente/gestion-pedido
 import { DireccionComponent } from './componentes/zonaCliente/direccion.component';
 import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosechos.component';
 import { ListadireccionesComponent } from './componentes/zonaCliente/listadirecciones.component';
+import { AuthInterceptor } from './servicios/auth.interceptor';
 // ----- Servicios va a PROVIDERS -----
 @NgModule({
   declarations: [
@@ -42,7 +43,13 @@ import { ListadireccionesComponent } from './componentes/zonaCliente/listadirecc
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,//<---clase q implementa el HttpInterceptor
+      multi: true //<---autoriza a tener varios valores el interceptor
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
