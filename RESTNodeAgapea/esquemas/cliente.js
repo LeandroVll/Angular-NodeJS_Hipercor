@@ -2,7 +2,7 @@ var mongoose=require("mongoose");
 var Schema = mongoose.Schema;
 var Credenciales = mongoose.model('Credenciales');
 
-var esquemaCliente=new mongoose.Schema(
+var esquemaCliente=new Schema(
     {
         nombre: { type: String, required: true },
         primerApellido: { type: String, required: true },        
