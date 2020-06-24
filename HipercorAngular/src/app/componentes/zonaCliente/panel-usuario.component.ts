@@ -27,9 +27,9 @@ export class PanelUsuarioComponent implements OnInit {
   creaPedido(){
 
     var token=  this._storage.RecuperarStorage("token"); //<--recupero el cliente 
-
+    //
     this.pedido.idPedido=Math.random().toString(36).substring(2);
-    this.pedido.nifcliente= token.cliente.nif;
+   // this.pedido.nifcliente= token.nif;
     this.pedido.fechaPedido=new Date(Date.now());
     this.pedido.estadoPedido="En proceso"
     this.pedido.gastosEnvio=5.00;

@@ -33,9 +33,10 @@ export class LoginComponent implements OnInit, OnDestroy {
      _clienteNew.credenciales.email= this.formLogin.controls['email'].value;
      _clienteNew.credenciales.password= this.formLogin.controls['password'].value;
 
-    //le paso el obj cliente.credenciales al servicio
-     this._peticionesRest.logarCLiente(_clienteNew).subscribe((result: cliente)=>{
-      //console.log(`Esta es la respeusta del servidor al registro: `, result);
+    //le paso el obj cliente q contiene credenciales al servicio y este devolvera 
+    //un Json {token: cliente, fechaexp: date}
+     this._peticionesRest.logarCLiente(_clienteNew).subscribe((result)=>{
+      console.log(`Esta es la respeusta del servidor al registro: `, result);
 
         //redirije a la vista 
         if(result!=null)
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this._router.navigate(["/Cliente/PanelUsuario"]);
         }
         else{
-          console.log("Fallo subcripcion en el compoent login");
+          console.log("Fallo subcripcion en el componet login");
         }
 
      })
