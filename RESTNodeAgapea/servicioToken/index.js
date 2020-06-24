@@ -4,12 +4,12 @@ const moment = require('moment');
 const _aclaveTokens =  process.env.SECRET_TOKEN;
 
 //-----Esta funcione crea un token que dura 1 hora cuando un usuario se registra 
-function createToken(_cleinte) { 
+function createToken(_cliente) { 
 
     const payload={
-        sub: _cleinte.credenciales.email,
+        sub: _cliente,
         iat: moment.unix() ,
-        exp: moment().add(1, 'hour').unix()
+        exp: moment().add(1, 'hour').unix(),
     }
 
   return  jwt.encode(payload, _aclaveTokens)
