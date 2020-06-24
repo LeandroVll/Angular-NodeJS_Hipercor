@@ -12,7 +12,7 @@ function isAuth(req, res, next){
      
       _servicioToken.decodeToken(_token) //<---promesa 
                                         .then(response=>{
-                                            req._cliente = response; //<---le paso el payload al req
+                                            req.cliente = response; //<---le paso el payload al req
                                             next()
                                         })
                                         .catch(response=>{

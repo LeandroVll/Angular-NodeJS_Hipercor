@@ -33,7 +33,7 @@ module.exports=function(servidorExpress){
     servidorExpress.use(function(req,res,next){
         res.header("Access-Control-Allow-Origin","*");
         res.header("Access-Control-Allow-Credentials",req.headers.origin);
-        res.header("Access-Control-Allow-Headers", "Content-Type, Accept, Origin");
+        res.header("Access-Control-Allow-Headers", "Content-Type, Accept, Origin, Authorization");
         next(); //lo mandamos al 4º modulo de la pipeline tras modificar campos de cabecera de 
                 //la respuesta
 

@@ -1,5 +1,6 @@
 
 var mongoose = require('mongoose');
+const moment = require('moment');
 var credenciales = require('../../esquemas/credenciales');
 var Producto = require('../../esquemas/producto');
 var ListaProductos=require('../../esquemas/listaProductos'); //<---TIENE Q CARGARSE DESPUES DE LOS SCHEMA DE DENTRO
@@ -50,7 +51,7 @@ router.post('/registroCliente', (req,res,next)=>{
                                 if (resultado!=null) { //<---esq si hay usuario con ese email
     
                                     console.log('encontro al: ', resultado );
-                                    res.send(200,'Ya existe una cuenta con este email: ');
+                                    res.status(200).send('Ya existe una cuenta con este email: ');
                                 
                                 }
                                 else{ 
@@ -192,34 +193,45 @@ router.post('/login', (req, res, next)=>{
     
     // aqui leeria los datos del req.body pasados por el usuario {}
     console.log('datos recividos desde la pagina login: ', req.body);
-    
-    //aqui deberia comrpobar el estado de la cuenta activa=true or false
-    //y si la cuenta esta activa dejarle logarse
-    //como busco en monggose credenciales    
-    cliente.find({ _email: req.body.credenciales.mail}, (err, _cliente)=>{
-        if (err) {
-            console.log('Ha ocurrido un error', err);
-        }else if (!_cliente) {
-            console.log('no se ha encontrado el cliente', _cliente);
-        } else {
-                console.log('cliente encontrado: ', _cliente[0]); //<---aqui devuelve un array de jsdon
-               cliente = _cliente[0];
-             //  console.log(".....>",cliente);
-               //<--este obj sjon debe ser {}
-                res.status(200)
-                              .send({  
-                                        token: codToken.createToken(_cliente[0]),
-                                        cliente:  _cliente[0] //<----
-                                    });
-        }
-        next();
-    });
+
+    credenciales.findOne({ email: req.body.credenciales.email})
+                .populate("cliente")
+                .exec((err, respuesta)=>{
+                    if (!err) {
+                        console.log("ENCONTRADO==>", respuesta);
+                        //--se comprueba la password del req y del resultado devuelto por mongo
+                        if (bcrypt.compareSync(req.body.credenciales.password, respuesta.password)) {
+                            console.log("password correcta-->", respuesta.password)
+                            var _credencialesID= respuesta._id;
+                            cliente.findOne({credenciales: _credencialesID}, (err, _cliente)=>{//<--se busca el cliente
+                                if (!err) {                                                  //se devuelve el token
+                                    console.log("cliente--->", _cliente);
+                                    res.status(200)
+                                    .send({
+                                            token: codToken.createToken(_cliente),
+                                            fechaExpiracion: new Date(Date.now())
+                                           // .toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                                        })
+                                } else {
+                                    console.log("error cliente--->", err); 
+                                }
+                            })
+
+                        } else {
+                            console.log("password incorrecta-->", req.body.credenciales.password)
+                           
+                        }
+                    } else {
+                        console.log("error==>", err);
+                    }
+                });
+
 });
 
 
 
 //muestra los productos de la BD en la vista tienda
-router.get('/productos', (req, res, next)=>{
+router.get('/productos', auth, (req, res, next)=>{
     
     var listaProductos={};
     Producto.find((err, resultado)=>{
@@ -265,7 +277,7 @@ router.post('/insertPedido', (req,res, next)=>{
         listaProductos: datos.listaElementosPedido
     });
 
-    _Pedido.listaProductos=_listaProductos;
+    
    // console.log("<<<<>>>", _Pedido.listaElementosPedido[1]);
 
     _Pedido.save((err,resultado)=>{
@@ -276,8 +288,39 @@ router.post('/insertPedido', (req,res, next)=>{
         }
     })
 
+    //--------
+    _credenciales={};
+    cliente.findOne(
+        { "nifcliente" : _Pedido.nifcliente}, // <--- le paso el modelo criteria es decir el Id q quiero buscar en la BBDD
+        (err, resultado)=>{ //<--- el tercer parametro es un callback
+            if (resultado!=null) { //<---esq si hay usuario con ese email
 
-    res.status(200).send({message: "funciona"})
+                console.log('encontro al: ', resultado );
+            
+            }
+            else{ 
+                console.log('no se encontro al: ', resultado );
+            }});
+
+    var _htmlPart = "<p>Hola, estimado cliente. Se ha hecho una compra a nombre del NIF "+ req.body.nifcliente +"</p> </br>" + 
+                    "<p> Se ha hecho una compra por el valor de:"+ req.body.total +"€"  +" <br>"+
+                     "el dia: "+  req.body.fechaPedido +"</p>"+
+                    "<br><p>Su pedido llegará en unos 3 dias<br>"+
+                    "<strong>"+"Precio total: "+ req.body.total +"</strong>"
+                    " Gracias de parte de Hipercor.SA</p> ";
+                                                    
+                 //----Uso la funcion enviarMail de envioMail.js
+                    clienteMaiGun.enviarMail(   _credenciales.email, 
+                                                "Datos de copara Hipercor.com", //<--campo titulo del mail String
+                                                "Recibo",    //<-- asunto del email
+                                                    _htmlPart ); //<--- parte html con mensaje 
+
+
+
+
+
+
+    res.status(200).send({message: "se evio email de recivo"})
 });
 
 
