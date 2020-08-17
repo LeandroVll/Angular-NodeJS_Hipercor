@@ -8,6 +8,7 @@ export class cliente {
     segundoApellido: string;
     fechaNacimiento: Date;
     telefono: string;
+    movil: string;
     nif: string;
     
 
