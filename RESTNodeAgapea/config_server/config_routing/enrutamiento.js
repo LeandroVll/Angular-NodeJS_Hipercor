@@ -17,6 +17,7 @@ var router=express.Router();// <--- objeto de enrutado q voy a exportar al modul
 //q va a manejar el modulo de lo pipeline de EXPRESS
 var codToken = require('../../servicioToken'); //<--funcion decodif de token 
 const auth = require('../middleware/auth');
+const { updateOne } = require('../../esquemas/credenciales');
 
 //------------------------------------------------------------------------------------------------------
 router.post('/registroCliente', (req,res,next)=>{
@@ -154,7 +155,7 @@ router.get("/activarCuenta", (req,res,next)=>{
             _idCredenciales = statusDeActivacion; //<-- gurado el arr de obj q me devuelve
             //---------aqui activo la cuenta con el _id de credenciales
             cliente.updateOne(
-                { "email" : _idCredenciales[0] }, // <--- le paso el modelo creteria es decir el Id q quiero buscar en la BBDD
+                { "email" : _idCredenciales[0] }, // <--- le paso el modelo criteria es decir el Id q quiero buscar en la BBDD
                 { "cuentaActiva": true }, //<--- el campo que quiero cambiar
                 (err, resultado)=>{ //<--- el tercer parametro es un callback
                     if (!err) {
@@ -209,7 +210,8 @@ router.post('/login', (req, res, next)=>{
                                     res.status(200)
                                     .send({
                                             token: codToken.createToken(_cliente),
-                                            fechaExpiracion: new Date(Date.now())
+                                            fechaExpiracion:  moment().add(1, "hour").format()
+                                            //new Date(Date.now()).toLocaleString().split(',')[0]
                                            // .toISOString().replace(/T/, ' ').replace(/\..+/, '')
                                         })
                                 } else {
@@ -231,8 +233,8 @@ router.post('/login', (req, res, next)=>{
 
 
 //muestra los productos de la BD en la vista tienda
-router.get('/productos', auth, (req, res, next)=>{
-    
+router.get('/productos', (req, res, next)=>{
+    console.log('llamada correcta-->',req);
     var listaProductos={};
     Producto.find((err, resultado)=>{
         if (err) {
@@ -370,7 +372,7 @@ router.get('/pedidosHechos',(req, res, next)=>{
         else{
             console.log("ok la extraccion",resultado);
                      
-            res.status(200).send(resultado);;
+            res.status(200).send(resultado);
             next();
         }
     })
@@ -388,13 +390,120 @@ router.get('/listaDirecciones',(req, res, next)=>{
         else{
             console.log("ok la extraccion",resultado);
                      
-            res.status(200).send(resultado);;
+            res.status(200).send(resultado);
             next();
         }
     })
 
 });
 
+
+router.post('/decodificarToken', auth,(req, res, next)=>{
+
+    //console.log(req.body)   
+    var _token = req.body;//<--
+   
+    codToken.decodeToken(_token.token).then( (result)=>{
+        console.log(result )
+        res.status(200).send(result);
+        next();
+    })//<--se decodifica el token y devuelve el cleinte decod
+
+   });
+
+router.post('/datosPersonales', auth,(req, res, next)=>{
+
+ //console.log(req.body)   
+ var _cliente = req.body;//<--
+ 
+ console.log(req.body._id)
+
+ cliente.updateOne(
+                    {_id: req.body._id},
+                    {$set: req.body},//<--actualiza solo q este en el req.body 
+                    function(err, info){
+                        if (err) {
+                            res.status(500).send("ERROR: NO SE PUDO ACTUALIZAR EL CLIENTE")
+                        } else {
+                            res.status(200).send({message: "EL CLEINTE SE ACTUALIZO CORRECTAMENTE"})
+                            next()
+                        }
+                    }
+                )
+ 
+});
+
+router.post('/ActualizaCredenciales', auth,(req, res, next)=>{
+
+    console.log(req.body)  //<---es un obj json 
+   // se actualiza las pass de froma async
+    //1.encontrar las credenciales por _id
+
+    credenciales.findOne({ _id: req.body.cli.credenciales })
+        .populate("cliente")
+        .exec(
+        (err, creds) => {
+        if (!err) {
+            console.log('encontrado el cliente',creds)
+            if (bcrypt.compareSync(req.body._oldpassword, creds.password)) {
+                console.log('password antigua correcta--> ',req.body._oldpassword)
+                decoCredenciales(creds);//<--funcion async
+            } else {
+                console.log('password antigua Incorrecta ',req.body._oldpassword, creds.password)
+                res.status(500).send("ERROR: LA CONTRAEÑA ANTIGU ES INCORRECTA")
+            }
+        } else {
+            console.log('NO se ha encontrado el cliente ')
+            res.status(500).send("ERROR: NO SE PUDO ACTUALIZAR EL CLIENTE ES INCORRECTO")
+        }
+        
+    });     
+
+    async function decoCredenciales(_credenctials){
+        //2.hashea la password enviada por elcleinte
+        const passhasheada= await new Promise((resolve, reject)=>{
+            bcrypt.hash(req.body.newcreds,10,function(err, hash){
+                if (!err) {
+                    console.log('nueva pass hasheada-->', hash)
+                    resolve(hash)
+                } else if(err){
+                    console.log('error con la pass hasheada-->', err)                   
+                    reject(err)
+                }
+            })
+        });         
+
+        //3.Actualizar los datos
+        const actualizados = await new Promise((resolve, reject)=>{
+            credenciales.updateOne( {_id: _credenctials._id},
+                {$set: {password: passhasheada}},
+                function(err, info){
+                  if (err) {
+                      res.status(500).send("ERROR: NO SE PUDO ACTUALIZAR EL CLIENTE")
+                  } 
+                  else {
+                    var _htmlPart = "<p>Hola, estimado cliente. Se ha hecho un cambio en los datos de acceso de su cuenta "+
+                    "el dia: "+  moment().format() +"</p> </br>" + 
+                    "<p> si no has realizado estos cambios por favor pongase en contacto con atencion al cliente: 9025479634"+" <br>"+
+                     +"</p>"+
+                    " Gracias de parte de Hipercor.SA</p> ";
+                                                    
+                    //----Uso la funcion enviarMail de envioMail.js
+                    clienteMaiGun.enviarMail(   _credenctials.email, 
+                                                "Datos Personales Hipercor.com", //<--campo titulo del mail String
+                                                "Actualizacion",    //<-- asunto del email
+                                                    _htmlPart ); //<--- parte html con mensaje 
+                      res.status(200).send({message: "EL CLEINTE SE ACTUALIZO CORRECTAMENTE"})
+                      next()
+                  }
+              }
+                )
+        });
+
+    }
+      
+
+   });
  
 //--------------lo exporto----------
 module.exports = function(servidorExpress){
