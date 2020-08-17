@@ -12,9 +12,7 @@ import { Pedido } from 'src/app/modelos/pedido';
 })
 export class PedidoComponent implements OnInit {
 
-  constructor(private _peticionesRest : RestfullnodejsService, private _router:Router, 
-              private _rutaActiva: ActivatedRoute,
-              private _storage:LocalstorageService) { }
+  constructor() { }
 
   @Input()infoProducto:Producto;
   public listaProductos:Producto[]; 

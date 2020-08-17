@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { RestfullnodejsService } from "../../servicios/restfullnodejs.service";
 import { cliente } from 'src/app/modelos/cliente';
 import { Credenciales } from 'src/app/modelos/credenciales';
 import { Router } from "@angular/router";
 import { LocalstorageService } from 'src/app/servicios/LocalstorageService';
+import { RestfullnodejsService } from 'src/app/servicios/restfullnodejs.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +35,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     //le paso el obj cliente q contiene credenciales al servicio y este devolvera 
     //un Json {token: cliente, fechaexp: date}
+    console.log('cliente--->',_clienteNew )
+
+
+
      this._peticionesRest.logarCLiente(_clienteNew).subscribe((result)=>{
       console.log(`Esta es la respeusta del servidor al registro: `, result);
 
@@ -49,10 +53,22 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
      })
-
+     console.log('clienteeeeee--->',_clienteNew )
   }
 
   ngOnInit() {
+        this._peticionesRest.RecuperarProductos().subscribe((result)=>{
+      // console.log(`Esta es la respeusta del servidor los datos BD: `, result);
+       if (result!=null) {
+        // console.log(result);        
+                                         
+         console.log(result);
+   
+       }
+       else{
+         console.log("salio mal la subcrpcion a Recuperarproductos");
+       }
+     });
   }
 
   ngOnDestroy(){

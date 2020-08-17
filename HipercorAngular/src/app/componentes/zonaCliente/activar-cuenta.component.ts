@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RestfullnodejsService } from 'src/app/servicios/restfullnodejs.service';
-import { RegistroComponent } from "./registro.component";
+import { RegistroComponent } from "../zonaTienda/registro.component";
 import { cliente } from 'src/app/modelos/cliente';
 
 @Component({

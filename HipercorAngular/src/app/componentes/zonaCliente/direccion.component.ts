@@ -22,7 +22,7 @@ export class DireccionComponent implements OnInit, OnDestroy {
         }
     }
     return invalid;
-}
+  }
 
   constructor(private _peticionesRest : RestfullnodejsService) { 
 
