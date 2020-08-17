@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 // --- Referencias de componentes a importar en funcion de la ruta --- 
-import { RegistroComponent } from './componentes/zonaCliente/registro.component';
+import { RegistroComponent } from './componentes/zonaTienda/registro.component';
 import { LoginComponent } from "./componentes/zonaCliente/login.component";
 import { PanelUsuarioComponent } from "./componentes/zonaCliente/panel-usuario.component";
 import { TiendaComponent } from "./componentes/zonaTienda/tienda.component";
@@ -11,6 +11,8 @@ import { GestionPedidoComponent } from './componentes/zonaCliente/gestion-pedido
 import { DireccionComponent } from './componentes/zonaCliente/direccion.component';
 import { LospedidosechosComponent } from './componentes/zonaCliente/lospedidosechos.component';
 import { ListadireccionesComponent } from './componentes/zonaCliente/listadirecciones.component';
+import { InformacionPersonalComponent } from './componentes/zonaCliente/informacion-personal.component';
+import { DatosAccesoComponent } from './componentes/zonaCliente/datos.acceso.component';
 
 const routes: Routes = [
 
@@ -35,6 +37,12 @@ const routes: Routes = [
                                 },
                                 {
                                   path: "ListaDirecciones", component: ListadireccionesComponent //
+                                },
+                                {
+                                  path: "InformacionPersonal", component: InformacionPersonalComponent //
+                                },
+                                {
+                                  path: "DatosAcceso", component: DatosAccesoComponent //
                                 }
                             ],
                             
