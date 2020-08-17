@@ -144,4 +144,51 @@ public RecuperarProductos(): Observable<Producto[]> {//<<--arr de productos
   
 }
 
+/**
+ * recuperar productos 
+ de mongo*/
+ public InsertarDatosPersonales(newcliente: cliente): Observable<Boolean> {//<<--arr de productos
+
+
+  return this._http.post<Boolean>(  'http://localhost:3000/api/datosPersonales',
+                                     newcliente,
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+/**
+ * 
+ * */
+ public decodToken(newtoken: any): Observable<any> {//<<--arr de productos
+
+
+  return this._http.post<any>(  'http://localhost:3000/api/decodificarToken',
+                                     newtoken,
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+
+/**
+ * 
+ * */
+public ActualizaCredenciales(newtoken: any): Observable<any> {//<<--
+
+
+  return this._http.post<any>(  'http://localhost:3000/api/ActualizaCredenciales',
+                                     newtoken,
+                                    {
+                                      headers : new HttpHeaders({ 'Content-Type': 'application/json' })
+                                    }
+  );
+  
+}
+
+
 }
