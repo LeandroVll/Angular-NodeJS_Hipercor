@@ -17,7 +17,7 @@ servidor.listen(3000, (err)=>{
     if (!err) {
         console.log('...servidor escuchando en el puerto 3000....');
     }else{
-        console.log('ERROR FATAL ALA LANZAR EL SERVIDOR', err);
+        console.log('ERROR FATAL AL LANZAR EL SERVIDOR', err);
     }
 });
 
