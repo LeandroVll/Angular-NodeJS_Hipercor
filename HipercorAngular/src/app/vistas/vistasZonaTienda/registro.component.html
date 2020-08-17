@@ -1,0 +1,148 @@
+<h2>Registro</h2>
+<br />
+
+<form [formGroup]="formregistro" (ngSubmit)="RegistrarCliente()">
+    <legend style="font-size:14px; color:green">DATOS DE ACCESO</legend>
+    <div class="row">
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div  style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+                <label for="email">CORREO ELECTRONICO *</label>
+                <input type="text" class="form-control" #email id="email" name="email" formControlName="email" placeholder="...Direccion de email...">
+            </div>
+
+            <span class="danger" *ngIf="formregistro.controls['email'].errors?.pattern">
+                <p> Error en el formato del email </p>
+            </span>
+            <span class="danger" *ngIf="formregistro.controls['email'].errors?.required">
+                <p> campo  email obligatorio </p>
+            </span>            
+
+        </div>
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+              <label for="password">CONTRASEÑA *</label>
+              <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="...Minimo de 6 caracteres...">
+            </div>
+
+            <span class="danger" *ngIf="formregistro.controls['password'].errors?.required">
+                <p> El campo contarseña es obligatorio</p>
+            </span>
+            <!--
+                
+            <span class="danger" *ngIf="formregistro.controls['password'].errors?.minLength">
+                <p> Minimo 6 caracteres </p>
+            </span>
+            -->
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:10px;">
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div style="width:33%; float:left; min-height:1px; padding-right:15px; padding-left: 15px;">
+            <div class="form-group">
+
+                <p style="font-style:italic; font-size: .8em; color:#666666; "> Te enviaremos un correo electrónico para validar que tu dirección sea correcta </p>
+            </div>
+
+
+        </div>
+
+        <div style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+              <label for="repassword">CONFIRMA TU CONTRASEÑA *</label>
+              <input type="password" class="form-control" id="repassword" name="repassword" formControlName="repassword" placeholder="...confirmar contraseña...">
+            </div>
+
+            <span class="danger" *ngIf="formregistro.controls['repassword'].errors?.required">
+                <p> Vuelve a introducir contarseña</p>
+            </span>
+        </div>
+
+    </div>
+
+
+    <br />
+
+
+    <div class="row">
+
+        <legend style="font-size:14px; color:green">DATOS PERSONALES</legend>
+
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+              <label for="nombre">NOMBRE *</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" placeholder="...tu nombre...">
+          </div>
+
+          <span class="danger" *ngIf="formregistro.controls['nombre'].errors?.required">
+            <p> El campo nombre es obligatorio</p>
+         </span>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top:10px;">
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+              <label for="primape">PRIMER APELLIDO *</label>
+              <input type="text" class="form-control" id="primape" name="primape" formControlName="primape" placeholder="...tu primer apellido...">
+            </div>
+
+            <span class="danger" *ngIf="formregistro.controls['primape'].errors?.required">
+                <p> El campo primer apellido es obligatorio</p>
+             </span>
+        </div>
+
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div style="width:25%;float:left;min-height:1px;padding-right:15px; padding-left:15px;">
+            <div class="form-group">
+              <label for="secape">SEGUNO APELLIDO</label>
+              <input type="text" class="form-control" id="secape" name="secape" formControlName="secape" placeholder="...tu segundo apellido...">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4" style="margin-top:20px;"></div>
+
+        <div class="col-md-4" style="margin-top:50px;">
+
+            <button type="submit" style="width:80%;" class="btn btn-success" [disabled]="formregistro.status=='INVALID'">
+                <span style="color:white" class="glyphicon glyphicon-ok">
+                    REGISTRAR
+                </span>
+            </button>
+            <br />
+        </div>
+    </div>
+  </form>
+
